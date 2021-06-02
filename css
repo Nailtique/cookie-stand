@@ -1,0 +1,25 @@
+form {
+  background: rgba(250,128,114, .9);
+  width: 40%;
+  margin: 0 auto;
+}
+
+table{
+  background: rgba(250,128,114, .9);
+  margin: 0 auto;
+}
+
+label {
+  display: block;
+  padding-bottom: 1%;
+}
+
+input{
+  display: inline-block;
+  position: absolute;
+  left: 60%;
+}
+
+.button{
+  position: static;
+}
