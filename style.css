@@ -1,0 +1,184 @@
+body {
+  background-image: url('/img/fish.jpg');
+  margin: 0;
+}
+
+.logo, header {
+  position: relative;
+  width: 50%;
+  max-height: 15%;
+  margin: 0 auto;
+  font-family: 'Bungee Inline';
+  text-align: center;
+}
+
+header {
+  position: absolute;
+  left: 25%;
+  right: 25%;
+  top: 7.5%;
+  color: #72ecfa;
+}
+
+h1, h2{
+  text-shadow: 2px 2px #ecfa72;
+}
+
+h1{
+  font-size: 2.5vw;
+}
+
+h2 {
+  font-size: 2.25vw;
+}
+
+a img{
+  width:100%;
+  display: block;
+  top: 7.5%
+}
+
+nav {
+  margin: 0 auto;
+  margin-top: 10%;
+  width: 100%;
+  padding: 0;
+  background: #7f72fa;
+  border: outset 5px #72ecfa;
+  border-radius: 50%;
+  box-sizing: border-box;
+  z-index: 3;
+}
+
+nav ul {
+  margin-left: 20%;
+  margin-right: 10%;
+  padding: 0;
+  height: 35px;
+  background: #7f72fa;
+}
+
+nav ul a {
+  color: #ecfa72;
+  display: block;
+  line-height: 35px;
+  text-decoration: none;
+  font-size: 2vw;
+  width: 100%;
+  font-family: 'Bungee Inline';
+}
+
+nav ul li{
+  float: left;
+  list-style: none;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  width: 20%;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+nav ul ul {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  padding: 0;
+  background: linear-gradient(#7f72fa, #72ecfa);
+  border: outset 5px #72ecfa;
+  border-top: none;
+  border-radius: 0 0 50% 50%;
+  padding-bottom: 10%;
+}
+
+nav ul ul li {
+  width: 25%;
+}
+
+nav ul ul a{
+  line-height: 120%;
+  text-align: center;
+}
+
+nav ul li:hover > ul {
+  display: block;
+  z-index: 2;
+}
+
+.about{
+  background: rgba(94, 85, 84, .5);
+  margin: 0 0 0 10%;
+  padding: 1% 2%;
+  position: relative;
+  top: 2.5%;
+  float: left;
+  width: 55%;
+  z-index: 1;
+}
+
+.about img{
+  float: right;
+  width: 40%;
+}
+
+h3, h4, h5 {
+  font-family: 'Nunito';
+  color: #7f72fa;
+  text-shadow: 2px 2px black;
+}
+
+h3{
+  font-size: 2vw;
+}
+
+h4 {
+  font-size: 1.75vw;
+}
+
+h5 {
+  font-size: 1.5vw;
+}
+
+h6 {
+  font-size: 1.25vw;
+}
+
+p {
+  padding-right: 10%;
+}
+
+aside{
+  float: right;
+  clear: right;
+  display: inline-block;
+  font-family: 'Merriweather';
+  width: 20%;
+  margin-right: 5%;
+  background: rgba(94, 85, 84, .5);
+  margin-top: 2.5%;
+  padding: 1%;
+}
+
+aside ul{
+  list-style: none;
+}
+
+table{
+  border-collapse: collapse;
+}
+table th, table td {
+  border: 1px solid black;
+}
+
+#main-wrapper {
+  margin: 0 auto;
+  background: rgba(250,128,114, .9);
+  width: 80%;
+  height: 1800px;
+}
+
+footer img{
+  width: 100%;
+  height: 15%;
+}
