@@ -1,179 +1,174 @@
 'use strict';
 
-//Set the day and hours the table will display
-var day = prompt('Choose the day.');
-var weekdayHours = ['9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm'];
-var satHours = ['11am', '12pm', '1pm', '2pm', '3pm', '4pm'];
 
-var hours = [];
-if (day.toUpperCase().trim()==='SATURDAY'){
-  hours = satHours;
-} else if (day.toUpperCase().trim()!=='SUNDAY'){
-  hours = weekdayHours;
-}
-document.getElementById('dynamic').colSpan = hours.length;
 
-var hoursEl = document.getElementById('hours');
-for(var i=0; i<hours.length; i++){
-  var td = document.createElement('td');
-  td.textContent = hours[i];
-  hoursEl.appendChild(td);
+let workinghours = ['6:00am','7:00am','8:00am','9:00am','10:00am','11:00am','12:00pm','1:00pm','2:00pm','3:00pm','4:00pm','5:00pm','6:00pm','7:00pm','Daily Location Total'];
+let golVar = document.getElementById('main');
+
+function getRndInteger(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
 
-//List of existing Venues
-
-Venue.all = [];
-
-//Venue Constructor Function
-
-function Venue(address, min, max, aveSold){
-  if (arguments.length<5) {console.error('Address, min, max, and aveSold are required!');}
-  this.address = address;
-  this.min = min;
-  this.max = max;
-  this.aveSold = aveSold;
-  this.soldHourly = [];
-
-  //Add new venue to the list of venues
-  Venue.all.push(this);
+for(let v=0 ; v<workinghours.length;v++){
+  this['arrayPerHour'+v] = null;
 }
 
-//Create inital venues
-var venueA = new Venue('1st and Pike', 23, 65, 6.3, 'a');
-var venueB = new Venue('SeaTac Airport', 3, 24, 1.2, 'b');
-var venueC = new Venue('Seattle Center', 11, 38, 3.7, 'c');
-var venueD = new Venue('Capitol Hill', 20, 38, 2.3, 'd');
-var venueE = new Venue('Alki', 2, 16, 4.6, 'e');
 
-//Function to render simulated data for all venues to the table
-Venue.renderAll = function(){
-  resetTotalSoldPerHour();
-  var venueTr = document.getElementById('venueDisplay');
-  venueTr.innerHTML = '';
+let tableEl = document.createElement('table');
+golVar.appendChild(tableEl);
+tableEl.id = 'tableId';
+let arrOfObjects = [];
 
-  for(var i=0; i<Venue.all.length; i++){
-    Venue.all[i].render();
-  }
-  var venueBottomTotalsTr = document.getElementById('bottomTotals');
-  venueBottomTotalsTr.innerHTML = '<th>Totals</th>';
-  venueA.renderTotals();
+// for(let b=0 < b<timeArr.length;b++){
+//   let eval('someArr'+b) = [];
+// }
+
+function Shops(shoploc,minCust,maxCust,avgCookie){
+
+  this.shopLoc = shoploc;
+  this.minCust = minCust;
+  this.maxCust = maxCust;
+  this.avgCookie = avgCookie;
+  this.cookieSoldPerHour =[];
+  this.totalCookiesSold = null;
+
+  arrOfObjects.push(this);
+}
+
+Shops.prototype.randCusHor = function(){
+
+  let randCustomers = getRndInteger(this.minCust,this.maxCust);
+  return randCustomers;
+
 };
 
-//Simulate number of customers per hour
-Venue.prototype.simCustPerHour = function(){
-  var max = this.max;
-  var min = this.min;
-  return Math.ceil(Math.random()*(max-min)+min);
-};
+Shops.prototype.cookiesAmount = function(){
 
-//Simulate number of cookies sold per hour
-Venue.prototype.simSoldPerHour = function(){
-  return Math.ceil(this.aveSold*this.simCustPerHour());
-};
-
-//Resets the array used to get the bottom totals per hour. Without this, new values will be added to the initial total
-function resetTotalSoldPerHour(){
-  if(day.toUpperCase().trim()=== 'SATURDAY'){
-    Venue.prototype.totalSoldPerHour = [0, 0, 0, 0, 0, 0];
-  }else if(day.toUpperCase().trim()!== 'SUNDAY'){
-    Venue.prototype.totalSoldPerHour = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+  for (let i=0 ; i < 14 ; i++ ) {
+    let cookieAmountPerH = this.randCusHor() * this.avgCookie;
+    this.cookieSoldPerHour.push(Math.floor(cookieAmountPerH));
   }
+
+};
+
+Shops.prototype.totalCookieSoldFunc = function(){
+
+  for(let i=0 ; i < this.cookieSoldPerHour.length ; i++){
+
+    this.totalCookiesSold = this.totalCookiesSold + this.cookieSoldPerHour[i];
+
+  }
+
+  this.cookieSoldPerHour.push(this.totalCookiesSold);
+
+};
+
+Shops.prototype.headerRender = function () {
+
+  let tr1 = document.createElement('tr');
+  tableEl.appendChild(tr1);
+
+  for(let i = -1 ;i< timeArr.length ; i++){
+
+    let thEl = document.createElement('th');
+    tr1.appendChild(thEl);
+    thEl.textContent = timeArr[i];
+  }
+
 }
 
-//Creates an array with the simulated number of cookies sold during every hour the store is open on a set day
-Venue.prototype.simSold = function(){
-  if (day.toUpperCase().trim()==='SATURDAY'){
-    var hours = satHours;
-  }else if (day.toUpperCase().trim()==='SUNDAY'){
-    hours = 0;
-  } else{
-    hours = weekdayHours;
+Shops.prototype.render = function(){
+  
+  let tr1El = document.createElement('tr');
+  tableEl.appendChild(tr1El);
+  let td1 = document.createElement('td');
+  tr1El.appendChild(td1);
+  td1.textContent = this.shopLoc;
+
+  for(let j=0 ; j<this.cookieSoldPerHour.length;j++){
+
+    let td2 = document.createElement('td');
+    tr1El.appendChild(td2);
+    td2.textContent = this.cookieSoldPerHour[j];
+
+    // for(let i=0;i<timeArr.length;i++){
+    //   if(i===j){
+    //     eval('someArr'+i).push(this.cookieSoldPerHour[i])
+    //   }
+    // }
+
   }
-  for (var i = 0; i<hours.length; i++){
-    var theNum = this.simSoldPerHour();
-    this.soldHourly[i] = theNum;
-    this.totalSoldPerHour[i] += theNum;
-  }
-  return this.soldHourly;
+
+
+
 };
 
-//Function used to write the simulated hourly cookies sold to the table and the total hourly cookies sold by every store
-function getValuesAndTotals(sold, venueList){
-  var total = 0;
-  for(var i=0; i<sold.length; i++){
-    var td = document.createElement('td');
-    var soldString = sold[i];
-    td.textContent = soldString;
-    venueList.appendChild(td);
+Shops.prototype.footerRender = function(){
+
+  let trEl = document.createElement('tr');
+  tableEl.appendChild(trEl);
+  let tdEl = document.createElement('td');
+  trEl.appendChild(tdEl);
+  tdEl.textContent ='Total';
+  for(let i=0 ; i<timeArr.length;i++){
+    let tdEl = document.createElement('td');
+    trEl.appendChild(tdEl);
+    let totalCell = null;
+    for(let j=0;j<arrOfObjects.length;j++){
+      totalCell = totalCell + arrOfObjects[j].cookieSoldPerHour[i];
+    }
+    tdEl.textContent = totalCell;
   }
-  var tl = document.createElement('td');
-  tl.className = 'total';
-  for( i=0; i<sold.length; i++){
-    total = total + sold[i];
-  }
-  tl.textContent = total;
-  venueList.appendChild(tl);
+
 }
 
-//Locates the area in which the venue addresses and the aforementioned values are to be written.
-Venue.prototype.render = function(){
-  var id = this.address;
-  var venueDisplay = document.querySelector('#venueDisplay');
-  var tr = document.createElement('tr');
-  tr.innerHTML = '<td>' + this.address + '</td>';
-  venueDisplay.appendChild(tr);
-
-  var sold = this.simSold();
-
-  getValuesAndTotals(sold, tr);
+Shops.prototype.footerRenderNew = function() {
+  let removeRow = document.querySelector('#tableId').lastChild;
+  tableEl.removeChild(removeRow);
 };
 
-Venue.prototype.renderTotals = function(){
-  var id = 'bottomTotals';
-  var venueList = document.getElementById(id);
-  var sold = this.totalSoldPerHour;
+let seattle = new Shops('Seattle',23,65,6.3);
+let tokyo = new Shops('Tokyo',3,24,1.2);
+let dubai = new Shops('Dubai',11,38,1.2);
+let paris = new Shops('Paris',20,38,2.3);
+let lima = new Shops('Lima',2,16,4.6);
 
-  getValuesAndTotals(sold, venueList);
-};
+const formStore = document.getElementById('formStore');
+formStore.addEventListener('submit',submitHandle);
 
-//Obtains properties for a new venue and renders it to the table
-function handleSubmit(event){
-  event.preventDefault();
+function submitHandle(event) {
+  event.preventDefault()
+  let storeName = null;
+  let minn = null;
+  let maxx = null;
+  let avgg = null;
+  storeName = event.target.storeName.value;
+  minn = event.target.minNum.value;
+  maxx = event.target.maxNum.value;
+  avgg = event.target.avgNum.value;
 
-  var address = event.target.address.value;
-  var min = event.target.custMin.value;
-  var max = event.target.custMax.value;
-  var aveSold = event.target.aveSold.value;
-
-  var newVenue = new Venue(address, min, max, aveSold);
-  Venue.renderAll();
+  let newStore = new Shops(storeName,minn,maxx,avgg);
+  newStore.footerRenderNew()
+  newStore.randCusHor();
+  newStore.cookiesAmount();
+  newStore.totalCookieSoldFunc();
+  newStore.render();
+  newStore.footerRender();
+  console.log(arrOfObjects)
+  console.log(event);
 }
 
-//Sets up the handleSubmit function
-var form = document.querySelector('form');
-form.addEventListener('submit', handleSubmit);
 
-//Self-explanatory
-function startSimulation(){
-  resetTotalSoldPerHour();
-  venueA.render();
-  venueB.render();
-  venueC.render();
-  venueD.render();
-  venueE.render();
-  venueA.renderTotals();
+seattle.headerRender();
+
+function renderingAll(){
+  for(let n=0 ; n<arrOfObjects.length;n++){
+    arrOfObjects[n].randCusHor();
+    arrOfObjects[n].cookiesAmount();
+    arrOfObjects[n].totalCokieSoldFunc();
+    arrOfObjects[n].render();
+  }
 }
+renderingAll();
 
-startSimulation();
-© 2021 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Docs
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
+seattle.footerRender();
